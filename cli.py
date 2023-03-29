@@ -65,7 +65,7 @@ def main():
             print("unable to convert response to json.", e)
         display_results(data, sport_filter=args.sport)
     else:
-        print("invalid status code received.", rsp.status_code, rsp.text)
+        print("invalid http status code received.", rsp.status_code, rsp.text)
     
 if __name__ == "__main__":
     main()
