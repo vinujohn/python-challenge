@@ -13,8 +13,6 @@ CLI.
 - How can you confirm the code works?
 - Bonus: Implement the rest call asynchronously
 '''
-#TODO: what about unit testing? mocking?
-
 import argparse
 import requests
 import json
@@ -52,12 +50,14 @@ def display_results(data, sport_filter):
 def main():
     args = parser.parse_args()
 
+    # make request to http service
     try:
         rsp = requests.post(URL)
     except Exception as e:
         print("unable to connect to service.", e)
         return
     
+    # parse json response and display results
     if rsp.status_code == 200:
         try:
             data = json.loads(rsp.content)
