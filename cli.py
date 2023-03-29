@@ -33,11 +33,12 @@ def sort_by_date_desc(event):
     return date_obj
 
 def display_results(data, sport_filter):
-    # filter out results
-    if (sport_filter != None
-        and sport_filter.lower() in map(str.lower, data.keys())):
-        #TODO fix this
-        data = data[sport_filter]
+    # filter out results based on sport
+    if sport_filter != None:
+        if sport_filter in data:
+            data = {sport_filter: data[sport_filter]}
+        else:
+            raise ValueError(sport_filter + " not found. please check spelling. Examples:(f1Results, nbaResults, Tennis)") 
 
     # sort events in reverse chronological order
     for sport in data:
