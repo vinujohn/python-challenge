@@ -30,22 +30,21 @@ def sort_by_date_desc(event):
     date_obj = datetime.strptime(date_str, '%b %d, %Y %I:%M:%S %p')
     return date_obj
 
-def display_results(data, sport_filter):
+def filter_and_sort(json_data, sport_filter):
+    json_data = json_data.copy()
     # filter out results based on sport
     if sport_filter != None:
-        if sport_filter in data:
-            data = {sport_filter: data[sport_filter]}
+        if sport_filter in json_data:
+            json_data = {sport_filter: json_data[sport_filter]}
         else:
             raise ValueError(sport_filter + " not found. please check spelling. Examples:(f1Results, nbaResults, Tennis)") 
 
     # sort events in reverse chronological order
-    for sport in data:
-        sorted_events = sorted(data[sport], key=sort_by_date_desc, reverse=True)
-        data[sport] = sorted_events
+    for sport in json_data:
+        sorted_events = sorted(json_data[sport], key=sort_by_date_desc, reverse=True)
+        json_data[sport] = sorted_events
     
-    # print results to console
-    print(json.dumps(data, indent=4))
-    return
+    return json_data
 
 def main():
     args = parser.parse_args()
@@ -63,7 +62,8 @@ def main():
             data = json.loads(rsp.content)
         except Exception as e:
             print("unable to convert response to json.", e)
-        display_results(data, sport_filter=args.sport)
+        results = filter_and_sort(data, sport_filter=args.sport)
+        print(json.dumps(results, indent=4))
     else:
         print("invalid http status code received.", rsp.status_code, rsp.text)
     
