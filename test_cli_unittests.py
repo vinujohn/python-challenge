@@ -1,7 +1,7 @@
 import unittest
 import cli
 
-class TestAPI(unittest.TestCase):
+class TestFilterAndSort(unittest.TestCase):
     def setUp(self):
         self.test_data = {
             "nbaResults":[
