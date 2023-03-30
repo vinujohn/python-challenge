@@ -25,12 +25,12 @@ parser = argparse.ArgumentParser(
                     description='Displays a list of sport results on the command line')
 parser.add_argument("--sport", help='limit events to a particular sport')
 
-def sort_by_date_desc(event):
+def get_publication_date_obj(event):
     date_str = event['publicationDate']
     date_obj = datetime.strptime(date_str, '%b %d, %Y %I:%M:%S %p')
     return date_obj
 
-def filter_and_sort(json_data, sport_filter):
+def filter_and_sort(json_data: dict, sport_filter: str):
     json_data = json_data.copy()
     # filter out results based on sport
     if sport_filter != None:
@@ -41,7 +41,7 @@ def filter_and_sort(json_data, sport_filter):
 
     # sort events in reverse chronological order
     for sport in json_data:
-        sorted_events = sorted(json_data[sport], key=sort_by_date_desc, reverse=True)
+        sorted_events = sorted(json_data[sport], key=get_publication_date_obj, reverse=True)
         json_data[sport] = sorted_events
     
     return json_data
