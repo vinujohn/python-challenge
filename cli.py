@@ -17,6 +17,7 @@ import argparse
 import requests
 import json
 from datetime import datetime
+import asyncio
 
 URL = 'https://restest.free.beeceptor.com/results'
 
@@ -46,12 +47,15 @@ def filter_and_sort(json_data: dict, sport_filter: str):
     
     return json_data
 
-def main():
+async def make_request(url):
+    return requests.post(url)
+
+async def main():
     args = parser.parse_args()
 
     # make request to http service
     try:
-        rsp = requests.post(URL)
+        rsp = await make_request(url=URL)
     except Exception as e:
         print("unable to connect to service.", e)
         return
@@ -68,4 +72,4 @@ def main():
         print("invalid http status code received.", rsp.status_code, rsp.text)
     
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
