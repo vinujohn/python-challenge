@@ -17,6 +17,7 @@ import argparse
 import requests
 import json
 from datetime import datetime
+import pandas as pd
 import asyncio
 
 URL = 'https://restest.free.beeceptor.com/results'
@@ -67,7 +68,11 @@ async def main():
         except Exception as e:
             print("unable to convert response to json.", e)
         results = filter_and_sort(data, sport_filter=args.sport)
-        print(json.dumps(results, indent=4))
+        for sport in results:
+            df = pd.DataFrame.from_dict(results[sport], orient='columns')
+            print(sport)
+            print(df.to_string())
+            print("\n")
     else:
         print("invalid http status code received.", rsp.status_code, rsp.text)
     
