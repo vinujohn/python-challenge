@@ -67,7 +67,11 @@ async def main():
             data = json.loads(rsp.content)
         except Exception as e:
             print("unable to convert response to json.", e)
+        
+        # format and sort data
         results = filter_and_sort(data, sport_filter=args.sport)
+        
+        # display results in table
         for sport in results:
             df = pd.DataFrame.from_dict(results[sport], orient='columns')
             print(sport)
