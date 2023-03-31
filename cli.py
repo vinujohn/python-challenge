@@ -68,7 +68,7 @@ async def main():
         except Exception as e:
             print("unable to convert response to json.", e)
         
-        # format and sort data
+        # filter and sort data
         results = filter_and_sort(data, sport_filter=args.sport)
         
         # display results in table
